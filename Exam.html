@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="exam.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-login">
+            <div class="left">
+                <img src="" alt="">
+                <a href="#">Bài viết</a>
+                <a href="#">hỏi đáp</a>
+                <a href="#">thảo luận</a>
+            </div>
+            <div class="center">
+                <input type="text" placeholder="Tìm kiếm trên Viblo">
+            </div>
+            <div class="end">
+                <a href="#"></a>
+                <a href="#"></a>
+                <a href="#">Sign/SignOut</a>
+            </div>
+        </div>
+    </header>
+    <header>
+         <div class="imgae">
+            <img style="width: 100%;" src="https://images.viblo.asia/full/39776c26-3511-4f2f-adb4-57cbbe97bc75.png" alt="">
+         </div>
+    </header>
+    <nav>
+        <ul class="nav-links">
+           <li>nhà sáng tạo nội dung</li>
+           <li>mới nhất</li>
+           <li>series</li>
+           <li>Editors'choice</li>
+           <li>treding</li>
+           <li>videos</li>
+        </ul>
+    </nav>
+    <nav>
+        <p style="text-align: center; font-size: 20px;"><a href="#">>> Tham gia Facebook group "Viblo Community" để cùng nhau học tập và kết nối <<</a></p>
+    </nav>
+    <div id="list"></div>
+    <script>
+        $("doucument").ready(() => {
+            $.get("https://8c22c204b3474980b549d26caf5ab0eb.api.mockbin.io/",
+                (data, textStatus, xhr) => {
+                    if (xhr.status === 200) {
+                        showList(data);
+                    }
+                }
+            );
+            function showList(arr) {
+                const list = document.getElementById("list");
+                const template = `
+                        <div class="layout">
+                                <img class="ronaldo" src="https://b.fssta.com/uploads/application/soccer/headshots/885.vresize.350.350.medium.14.png"
+                                <div>
+                                    
+                                <div class="center">
+                                    <div class="contents">
+                                        <div>$published_at</div>
+                                        <div>$category_id</div>
+                                    </div>
+                                    <div class="content">
+                                        <div>$title</div>
+                                        <div>$system</div>
+                                    </div>   
+                                
+                                </div>
+                            </div>
+                        </div>
+            `;
+                arr.forEach((element) => {
+                    let newElement = template.replace("$src", element.slug)
+                        .replace("$published_at", element.published_at)
+                        .replace("$title", element.title)
+                        .replace("$system", element.system)
+                        .replace("$category_id", element.category_id)
+                    const div = document.createElement("div");
+                    div.innerHTML = newElement;
+                    list.appendChild(div);
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>
